@@ -36,10 +36,12 @@ namespace Course_Registration_System
 
         }
 
-        public void DropCourse(Course course)
+        public void DropCourse(Course courseToRemove)
         {
+            StudentsCourses.Remove(courseToRemove);
 
-          
+            List<Course> availableCourses = Course.GetAvailableCourses(this);
+            availableCourses.Add(courseToRemove);
         }
          public void ViewEnrollmentStatus()
         {

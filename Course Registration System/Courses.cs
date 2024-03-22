@@ -29,7 +29,7 @@ namespace Course_Registration_System
             return CourseDescription;
         }
 
-        //Constructor for initializing courses.
+         //Constructor for initializing courses.
         public Course(string courseName, CourseType type, string courseDescription)
         {
             CourseName = courseName;
@@ -41,26 +41,34 @@ namespace Course_Registration_System
         {
             List<Course> allCourses = GetAllCourses();
 
-            // filter out courses the student is already enrolled in
+            // Filter out courses the student is already enrolled in
 
             List<Course> availableCourses = allCourses.Except(student.StudentsCourses).ToList();
 
             return availableCourses;
         }
 
+        private static List<Course> allCourses;
+
         public static List<Course> GetAllCourses()
         {
-
-            List<Course> allCourses = new List<Course>
+            // the If/Else making sure it doesn't duplicate courses when GetAllCourses is called.
+            if (allCourses == null)
             {
-            new Course("Geometry", CourseType.Mathematics, "Explore the fundamental concepts of shapes, angles, and spatial relationships in our Geometry course."),
-            new Course("English Literature", CourseType.Literature, "Gain insight into classic and contemporary texts, examining themes, characters, and literary techniques of classic English literature."),
-            new Course("Biology", CourseType.Science, "Gain a foundational understanding of biological concepts and their real-world applications."),
-            new Course("Art History", CourseType.History, "Analyze iconic works and explore the cultural contexts that shaped them, enriching your understanding of art's profound impact on society.")
-           };
+               
+                allCourses = new List<Course>
+            {
+                // Add course objects to the list
+                new Course("Geometry", CourseType.Mathematics, "Explore the fundamental concepts of shapes, angles, and spatial relationships in our Geometry course."),
+                new Course("English Literature", CourseType.Literature, "Gain insight into classic and contemporary texts, examining themes, characters, and literary techniques of classic English literature."),
+                new Course("Biology", CourseType.Science, "Gain a foundational understanding of biological concepts and their real-world applications."),
+                new Course("Art History", CourseType.History, "Analyze iconic works and explore the cultural contexts that shaped them, enriching your understanding of art's profound impact on society.")
+            };
 
+            }
+
+          
             return allCourses;
-
         }
     }
 }

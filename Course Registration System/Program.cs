@@ -9,7 +9,7 @@ class Program
     {
         
 
-        Student student = new Student(12345,"Your Mom");
+        Student student = new Student(12345,"Jane Doe");
 
         while (true) //Looping main menu, so users return here instead of exiting the program.
         {
@@ -28,6 +28,7 @@ class Program
                     EnrollInCourse(student);
                     break;
                 case "2":
+                   DropACourse(student);
                     break;
                 case "3":
                     student.ViewEnrollmentStatus();
@@ -66,6 +67,8 @@ class Program
                 Course selectedCourse = availableCourses[choice - 1];
                 student.EnrollCourse(selectedCourse);
                 Console.WriteLine($"Enrolled in {selectedCourse.CourseName}.");
+                //Update available courses after enrollment
+                availableCourses = Course.GetAvailableCourses(student);
                 break;
             }
             else if (choice == 0)
@@ -81,4 +84,46 @@ class Program
         }
 
     }
-}
+
+    static void DropACourse(Student student)
+    {
+        while (true) // Drop Course Loop
+        {
+            Console.WriteLine("Your enrolled courses:");
+            student.ViewEnrollmentStatus();
+
+            List<Course> enrolledCourses = student.StudentsCourses;
+
+            Console.WriteLine("Enter the course you'd like to drop:");
+            Console.WriteLine("0. Cancel");
+
+            for (int i = 0; i < enrolledCourses.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {enrolledCourses[i].CourseName} - {enrolledCourses[i].CourseDescription}");
+            }
+
+            Console.Write("Enter the course number: ");
+            string input = Console.ReadLine();
+            if (int.TryParse(input, out int choice) && choice >= 1 && choice <= enrolledCourses.Count)
+            {
+                // Drop the selected course
+                Course courseToRemove = enrolledCourses[choice - 1];
+                student.DropCourse(courseToRemove);
+                Console.WriteLine($"Successfully dropped {courseToRemove.CourseName}.");
+                break;
+            }
+            else if (choice == 0)
+            {
+                Console.WriteLine("Course dropping canceled.");
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice. Please enter a valid number.");
+            }
+        }
+
+    }
+
+
+  }
